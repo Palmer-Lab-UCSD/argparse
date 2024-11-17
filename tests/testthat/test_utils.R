@@ -12,6 +12,9 @@
 
 test_that("rm_opt_prefix", {
     expect_equal(rm_opt_prefix("--option"), "option")
+    expect_equal(rm_opt_prefix("-option"), "option")
+    expect_equal(rm_opt_prefix("option"), "option")
+    expect_equal(rm_opt_prefix("opt-ion"), "opt-ion")
 })
 
 

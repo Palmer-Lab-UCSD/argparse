@@ -85,7 +85,7 @@ parse_r_lang_args <- function(args)
 
 rm_opt_prefix <- function(key)
 {
-    return(gsub(CHAR_PREFIX, "", key))
+    return(gsub(sprintf("^[%s]+",CHAR_PREFIX), "", key))
 }
 
 
