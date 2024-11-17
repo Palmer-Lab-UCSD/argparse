@@ -1,7 +1,7 @@
 Package: argparse
 Type: Package
 Title: A tool for specifying command line options for R scripts
-Version: 0.0.2
+Version: 0.0.3
 Date: 2024-11-13
 Author: Robert Vogel [aut,cre]
 Maintainer: Robert Vogel <rmvogel@ucsd.edu>
@@ -11,3 +11,4 @@ Description: This tool helps to build command line interfaces for R
     options and arguments, the argument / options types, writing help messages, 
     and automating the parsing input arguments.
 License: MIT License
+RoxygenNote: 7.3.2
