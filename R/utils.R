@@ -53,6 +53,36 @@ is_argument_def <- function(a) {
 }
 
 
+is_numeric_str <- function(s) {
+
+    cond_a <- "[+-]?[0-9]*\\.?[0-9]+"
+    cond_b <- "[+-]?[0-9]+\\.?[0-9]*"
+
+    return(grepl(sprintf("^%s$", cond_a), s)
+           || grepl(sprintf("^%s$", cond_b), s)
+           || grepl(sprintf("^%s[eE]?%s$", cond_a, cond_a), s)
+           || grepl(sprintf("^%s[eE]?%s$", cond_a, cond_b), s)
+           || grepl(sprintf("^%s[eE]?%s$", cond_b, cond_a), s)
+           || grepl(sprintf("^%s[eE]?%s$", cond_b, cond_b), s))
+}
+
+
+change_type <- function(x, type) {
+    if (typeof(x) == type)
+        return(x)
+
+    if (!is_numeric_str(x) && (type == "double" || type == "integer"))
+        stop(sprintf("Input %s isn't numeric.", x))
+
+    storage.mode(x) <- type
+
+    if (typeof(x) != type)
+        stop("Changing storage mode / type failed")
+
+    return(x)
+}
+
+
 #' Retreive user specified options from Rscript command line options 
 #'
 #' @description

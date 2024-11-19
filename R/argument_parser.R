@@ -295,24 +295,15 @@ argument_parser <- function(..., description=NULL)
         if (start_pos_idx > length(args))
             stop("No position arguments detected")
 
-        if (length(position_defs) == 1 && start_pos_idx == length(args)) {
-
-            tmp <- args[start_pos_idx]
-            storage.mode(tmp) <- position_defs[[1]]$type
-
-            arg_out[[position_defs[[1]]$ref]] <- tmp
-
-        } else if (length(position_defs) == length(args) - start_pos_idx + 1
+        if (length(position_defs) == 1 && start_pos_idx == length(args))
+            arg_out[[position_defs[[1]]$ref]] <- change_type(args[start_pos_idx], position_defs[[1]]$type)
+        else if (length(position_defs) == length(args) - start_pos_idx + 1
             && start_pos_idx < length(args)) {
 
             posit_args <- args[start_pos_idx:length(args)]
 
-            for (i in seq(length(posit_args))) {
-                posit_def <- position_defs[[i]]
-                tmp <- posit_args[i]
-                storage.mode(tmp) <- posit_def$type
-                arg_out[[posit_def$ref]] <- tmp
-            }
+            for (i in seq(length(posit_args)))
+                arg_out[[posit_def$ref]] <- change_type(posit_args[i], position_defs[[i]]$type)
         }
 
 

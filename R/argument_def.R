@@ -36,6 +36,12 @@ argument_def <- function(ref,
                         help=NULL)
 {
 
+    if (is.null(ref) || is.na(ref))
+        stop("ref must be a valid string")
+
+    if (grepl("\\s", ref))
+        stop("ref cannot have any whitespaces")
+
     if (!is.logical(required))
         stop("requirement keyword only takes logicals, (TRUE | FALSE)")
 

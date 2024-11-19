@@ -92,3 +92,25 @@ test_that("is_argument_def: true", {
 
     expect_true(is_argument_def(opt_def))
 })
+
+
+test_that("is_numeric: all cases", {
+    expect_true(is_numeric_str("5334"))
+    expect_true(is_numeric_str("53.34"))
+    expect_true(is_numeric_str("+53.34"))
+    expect_true(is_numeric_str("-53.34"))
+    expect_true(is_numeric_str("-.34"))
+    expect_true(is_numeric_str("1."))
+
+    expect_true(is_numeric_str("1.E2.345"))
+    expect_true(is_numeric_str("1.E+2.345"))
+    expect_true(is_numeric_str("-1.E+2.345"))
+    expect_true(is_numeric_str("-1.E-2.345"))
+    expect_true(is_numeric_str("-1.0E-2"))
+    expect_true(is_numeric_str("-1.0E-02"))
+
+    expect_false(is_numeric_str("1.a"))
+    expect_false(is_numeric_str("a"))
+    expect_false(is_numeric_str("a5"))
+    expect_false(is_numeric_str("qera.5"))
+})
