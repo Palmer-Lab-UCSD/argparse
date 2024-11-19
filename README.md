@@ -1,5 +1,7 @@
 # `argparse` a tool for defining and parsing command line arguments
 
+🚧  **Note: A work in progress**
+
 To my knowledge, `R` does not provide a useful command line argument parsing
 tool in its standard library.  Such a tool is useful for specifying the properties
 of script options and arguments.  The minimal features for such a tool include:
