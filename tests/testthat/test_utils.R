@@ -28,9 +28,15 @@ test_that("rm_opt_prefix", {
     expect_equal(rm_opt_prefix("option--"), "option--")
 })
 
+test_that("parse_r_lang_args: validate input", {
+    expect_error(parse_r_lang_args(NULL))
+    expect_error(parse_r_lang_args(NA))
+    expect_error(parse_r_lang_args(c(4.2, 5)))
+})
+
 
 test_that("parse_r_lang_args: find_prog_name", {
-    rscript_args <-  c("arbitrary", "--file=my_program.R", "--args",
+    rscript_args <- c("arbitrary", "--file=my_program.R", "--args",
                        "--user_option", "val")
 
     expect_equal(parse_r_lang_args(rscript_args)[["program_name"]],
@@ -88,13 +94,16 @@ test_that("process_option: logical", {
 
 
 test_that("is_argument_def: true", {
-    opt_def <- argument_def("--my_opt")
+    expect_true(is_argument_def(argument_def("--my_opt")))
+    expect_true(is_argument_def(argument_def("test")))
 
-    expect_true(is_argument_def(opt_def))
+    expect_error(is_argument_def(argument_def(NULL)))
+
+    expect_true(is_argument_def(argument_def("--test", type="logical", required=TRUE)))
 })
 
 
-test_that("is_numeric: all cases", {
+test_that("is_numeric_str: all cases", {
     expect_true(is_numeric_str("5334"))
     expect_true(is_numeric_str("53.34"))
     expect_true(is_numeric_str("+53.34"))
@@ -113,4 +122,15 @@ test_that("is_numeric: all cases", {
     expect_false(is_numeric_str("a"))
     expect_false(is_numeric_str("a5"))
     expect_false(is_numeric_str("qera.5"))
+})
+
+
+test_that("change_type: all cases", {
+    expect_equal(typeof(change_type("value", "character")), "character")
+    expect_equal(typeof(change_type("3.254", "double")), "double")
+    expect_equal(typeof(change_type("3", "double")), "double")
+    expect_equal(typeof(change_type("-3.24", "double")), "double")
+    expect_equal(typeof(change_type("1", "integer")), "integer")
+
+    expect_error(typeof(change_type("1a", "double")))
 })

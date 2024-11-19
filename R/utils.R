@@ -76,7 +76,7 @@ change_type <- function(x, type) {
 
     storage.mode(x) <- type
 
-    if (typeof(x) != type)
+    if (is.na(x) || typeof(x) != type)
         stop("Changing storage mode / type failed")
 
     return(x)
@@ -111,6 +111,9 @@ change_type <- function(x, type) {
 #'                  the programe specified by key 'program_name'.
 parse_r_lang_args <- function(args)
 {
+    if (typeof(args) != "character")
+        stop("Input must be a character vector")
+
     output <- list(args = NA, program_name = NA)
 
     i <- 1
