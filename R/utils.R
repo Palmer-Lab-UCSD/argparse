@@ -19,9 +19,6 @@
 # I've done here.
 #
 
-#' @title
-#'  test whether list is and argument_def
-#'
 
 is_argument_def <- function(a) {
 
@@ -83,32 +80,27 @@ change_type <- function(x, type) {
 }
 
 
-#' Retreive user specified options from Rscript command line options 
+#' @title Retreive user specified options from Rscript command line options 
 #'
-#' @description
-#' Rscipt passes the command line options specified by the user
+#' @description Rscipt passes the command line options specified by the user
 #' for the script / program and other to options the R language
 #' executable.  This function finds the options for the desired
 #' script / program.
 #'
-#' @details
-#' The command line arguments to an R program / script launched by
+#' @details The command line arguments to an R program / script launched by
 #' Rscript, e.g.
 #'
 #' Rscript <script_name.r> --arg1 value --arg2 value
 #' for running the R language executable. This function finds the
 #' `script_name.r` string and user defined key / val pairs.
 #'
-#' @param args (vector (character)
-#'      command line arguments, i.e. returned by commandArgs,
-#'      that Rscript uses to run a script
-#'
-#' @return output (list)
-#'      The list contains 2 key value pairs, 
-#'          1. program_name = the string that proceeds command line
-#'                  argument '--file='                
-#'          2. args = the list of user defined arguments defined by
-#'                  the programe specified by key 'program_name'.
+#' @param args character vector:
+#'  command line arguments, i.e. returned by commandArgs,
+#'  that Rscript uses to run a script
+#' @return output list:
+#'  The list contains 2 key value pairs:
+#'  * program_name = the string that proceeds command line argument '--file='
+#'  * args = the list of user defined arguments 
 parse_r_lang_args <- function(args)
 {
     if (typeof(args) != "character")
@@ -152,15 +144,13 @@ rm_opt_prefix <- function(key)
 }
 
 
-#' @title
-#'  Parse argument character vector for arg with definition arg_def
+#' @title Parse argument character vector for arg with definition arg_def
 #'
-#' @param (list)
-#'  list output from arg_def
-#' @param (charcter)
+#' @param arg_def list:
+#'  output from arg_def
+#' @param args character vector:
 #'  The set of arguments to match against arg_def
-#'
-#' @return (NA | logical | vector)
+#' @return NA | logical | vector :
 #'  vector type depends are arg_def specified type
 #'
 process_option <- function(arg_def, args) {

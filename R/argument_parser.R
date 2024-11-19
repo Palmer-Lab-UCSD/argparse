@@ -19,20 +19,18 @@
 # I've done here.
 # TODO add type checking of argument inputs
 
-#' @title
-#'      Parse command line arguments
+#' @title Parse command line arguments
 #'
 #' @export
-#' @param ... (list)
-#'      Each element of the list is the output of the argument_def function
-#' @param description (character)
-#'      A description of the script to be printed when user uses --help
-#' @return (closure) 
-#'      closure param (vector (character))
-#'          A vector of command line arguments, i.e. that returned by 
-#'          commandArgs function, to be used by script. 
-#'
-#'      closure return (list)
+#' @param ... :
+#'  Each element of the list is the output of the argument_def function
+#' @param description character | NULL
+#'  Description for --help (default NULL)
+#' @return closure 
+#'  * param character vector
+#'      A vector of command line arguments, i.e. that returned by 
+#'      commandArgs function, to be used by script. 
+#'  * return list
 #'      List contains default or input values for each option and argument 
 #'      input to the closures parent function. 
 argument_parser <- function(..., description=NULL)
@@ -152,7 +150,7 @@ argument_parser <- function(..., description=NULL)
             posit_args <- args[start_pos_idx:length(args)]
 
             for (i in seq(length(posit_args)))
-                arg_out[[posit_def$ref]] <- change_type(posit_args[i], position_defs[[i]]$type)
+                arg_out[[position_defs[[i]]$ref]] <- change_type(posit_args[i], position_defs[[i]]$type)
         }
 
 

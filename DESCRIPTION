@@ -2,6 +2,7 @@ Package: argparse
 Type: Package
 Title: A tool for specifying command line options for R scripts
 Version: 0.0.3
+Encoding: UTF-8
 Date: 2024-11-13
 Author: Robert Vogel [aut,cre]
 Maintainer: Robert Vogel <rmvogel@ucsd.edu>

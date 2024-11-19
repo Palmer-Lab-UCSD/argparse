@@ -3,31 +3,29 @@
 # By: Robert Vogel
 # Palmer Lab at UCSD
 
-#' @title 
-#'      Specify command line argument
+#' @title Specify command line argument
 #'
 #' @description
 #'      Specifies which command line options the script / program is able
 #'      to accept and the expected properties of each option value.
 #'
 #' @export
-#' @param ref (character)
+#' @param ref character:
 #'      command line option (prefix '--') or position (no prefix) argument name
 #' @param default_val (NULL | double | integer | logical | character)
-#'      (default NULL)
-#' @param required (logical) 
-#'      (default FALSE) whether the argument is required input
-#' @param type (character)
-#'      (default "character") can take values (character | integer | double | logical)
-#' @param nargs (character | numeric | NULL)
-#'      (default NULL, a single option value) If:
-#'            - integer: required number of space separated values
-#'            - "+": at least one argument
-#' @param help (character)
-#'      (default NULL) documentation to be printed with --help
-#'
-#' @return (list) with correct key value pairs for parsing
-#
+#'  (default NULL)
+#' @param required logical: 
+#'  whether the argument is required input (default FALSE)
+#' @param type character:
+#'  Type include: character | integer | double | logical, (default character)
+#' @param nargs character | numeric | NULL :
+#'  * integer: required number of space separated values
+#'  * "+": at least one argument
+#'  * default NULL
+#' @param help character:
+#'  documentation to be printed with --help (default NULL)
+#' @return list
+#'  with correct key value pairs for parsing
 argument_def <- function(ref,
                         default_val=NULL,
                         required=FALSE,
