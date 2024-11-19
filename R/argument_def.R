@@ -47,7 +47,7 @@ argument_def <- function(ref,
         stop(sprintf("Specified type must be one of (%s)\n",
                      paste(SUPPORTED_TYPES, sep=", ")))
 
-    if (type != "logical" && is.null(nargs))
+    if (type != "logical")
         nargs <- 1
 
     if (type == "logical") {
@@ -59,7 +59,7 @@ argument_def <- function(ref,
     if (nargs != "+" && !is.numeric(nargs))
         stop("Number of arguments must be + or an integer")
 
-    if (is.numeric(nargs) && (!is.integer(nargs) || nargs < 0))
+    if (is.numeric(nargs) && (floor(nargs) != nargs || nargs < 0))
         stop("Number of arguments (nargs) must be 0 or a positive integer.")
 
 

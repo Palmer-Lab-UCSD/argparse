@@ -19,6 +19,38 @@
 # I've done here.
 #
 
+#' @title
+#'  test whether list is and argument_def
+#'
+
+is_argument_def <- function(a) {
+
+    if (!is.list(a))
+        return(FALSE)
+
+    attributes <- names(a)
+
+    if (!("ref" %in% attributes))
+        return(FALSE)
+
+    if (!("val" %in% attributes))
+        return(FALSE)
+
+    if (!("help" %in% attributes))
+        return(FALSE)
+
+    if (!("type" %in% attributes))
+        return(FALSE)
+
+    if (!("nargs" %in% attributes))
+        return(FALSE)
+
+    if (!("required" %in% attributes))
+        return(FALSE)
+
+
+    return(TRUE)
+}
 
 
 #' Retreive user specified options from Rscript command line options 
@@ -52,8 +84,7 @@ parse_r_lang_args <- function(args)
     output <- list(args = NA, program_name = NA)
 
     i <- 1
-    a <- args[i]
-    while (i <= length(args) && a != "--args")
+    while (i <= length(args) && (a = args[i]) != "--args")
     {
     
         if ((r <- regexpr("^--file=(?<value>\\w*.(R|r))$", a, perl=TRUE)) > 0)
@@ -63,13 +94,12 @@ parse_r_lang_args <- function(args)
             output[["program_name"]] <- substring(a, start_idx, end_idx)
         }
     
-        a <- args[i]
         i <- i + 1
     }
 
     
     # if --args is not found
-    if (i == length(args) && a != "--args")
+    if (i >= length(args) && a != "--args")
         return(output)
 
 
@@ -89,24 +119,36 @@ rm_opt_prefix <- function(key)
 }
 
 
+#' @title
+#'  Parse argument character vector for arg with definition arg_def
+#'
+#' @param (list)
+#'  list output from arg_def
+#' @param (charcter)
+#'  The set of arguments to match against arg_def
+#'
+#' @return (NA | logical | vector)
+#'  vector type depends are arg_def specified type
+#'
 process_option <- function(arg_def, args) {
+
+    if (!is_argument_def(arg_def))
+       return(NA) 
 
     # find index with option
     opt_idx <- 1
-
     while (opt_idx <= length(args) && args[opt_idx] != arg_def$ref)
         opt_idx <- opt_idx + 1
 
     # handle logical
-    if (arg_def$type == "logical" && args[opt_idx] == arg_def$ref)
+    if (arg_def$type == "logical" && opt_idx <= length(args))
         return(TRUE)
     else if (arg_def$type == "logical")
         return(FALSE)
 
 
-    if (opt_idx == length(args) && args[opt_idx] != arg_def$ref)
-        stop("Invalid option")
-
+    if (opt_idx > length(args))
+        return(NA)
 
     # number of args given
     if (is.numeric(arg_def$nargs)) {
