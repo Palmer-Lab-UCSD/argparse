@@ -76,10 +76,10 @@ $ref
 [1] "my_value"
 
 $val
-NULL
+NA
 
 $help
-NULL
+NA
 
 $nargs
 [1] 0
@@ -109,10 +109,10 @@ $ref
 [1] "--my_value"
 
 $val
-NULL
+NA
 
 $help
-NULL
+NA
 
 $nargs
 [1] 1
@@ -144,7 +144,7 @@ $val
 [1] FALSE
 
 $help
-NULL
+NA
 
 $nargs
 [1] 0
