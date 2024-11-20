@@ -6,19 +6,19 @@
 \usage{
 argument_def(
   ref,
-  default_val = NULL,
+  default_val = NA,
   required = FALSE,
   type = "character",
-  nargs = NULL,
-  help = NULL
+  nargs = 1,
+  help = NA
 )
 }
 \arguments{
 \item{ref}{character:
 command line option (prefix '--') or position (no prefix) argument name}
 
-\item{default_val}{(NULL | double | integer | logical | character)
-(default NULL)}
+\item{default_val}{(NA | double | integer | logical | character)
+(default NA)}
 
 \item{required}{logical: 
 whether the argument is required input (default FALSE)}
@@ -26,13 +26,13 @@ whether the argument is required input (default FALSE)}
 \item{type}{character:
 Type include: character | integer | double | logical, (default character)}
 
-\item{nargs}{character | numeric | NULL :
+\item{nargs}{character | numeric :
 * integer: required number of space separated values
 * "+": at least one argument
-* default NULL}
+* default 1}
 
 \item{help}{character:
-documentation to be printed with --help (default NULL)}
+documentation to be printed with --help (default NA)}
 }
 \value{
 list

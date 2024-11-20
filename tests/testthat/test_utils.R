@@ -99,7 +99,7 @@ test_that("is_argument_def: true", {
 
     expect_error(is_argument_def(argument_def(NULL)))
 
-    expect_true(is_argument_def(argument_def("--test", type="logical", required=TRUE)))
+    expect_error(is_argument_def(argument_def("--test", type="logical", required=TRUE)))
 })
 
 

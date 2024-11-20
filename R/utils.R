@@ -123,16 +123,13 @@ parse_r_lang_args <- function(args)
     }
 
     
-    # if --args is not found
-    if (i >= length(args) && a != "--args")
+    # if --args is not found or is the last entry, no input arguments
+    if (i >= length(args))
         return(output)
 
-
-    # Remove none script arguments from args vector
-    if (i == length(args))
-        output[["args"]] <- args[i]
-    else
-        output[["args"]] <- args[i:length(args)]
+    # Recall that args[i] == --args
+    i <- i + 1
+    output[["args"]] <- args[i:length(args)]
 
     return(output)
 }

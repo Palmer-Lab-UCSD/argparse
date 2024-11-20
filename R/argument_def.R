@@ -12,27 +12,30 @@
 #' @export
 #' @param ref character:
 #'      command line option (prefix '--') or position (no prefix) argument name
-#' @param default_val (NULL | double | integer | logical | character)
-#'  (default NULL)
+#' @param default_val (NA | double | integer | logical | character)
+#'  (default NA)
 #' @param required logical: 
 #'  whether the argument is required input (default FALSE)
 #' @param type character:
 #'  Type include: character | integer | double | logical, (default character)
-#' @param nargs character | numeric | NULL :
+#' @param nargs character | numeric :
 #'  * integer: required number of space separated values
 #'  * "+": at least one argument
-#'  * default NULL
+#'  * default 1 
 #' @param help character:
-#'  documentation to be printed with --help (default NULL)
+#'  documentation to be printed with --help (default NA)
 #' @return list
 #'  with correct key value pairs for parsing
 argument_def <- function(ref,
-                        default_val=NULL,
+                        default_val=NA,
                         required=FALSE,
                         type="character",
-                        nargs=NULL,
-                        help=NULL)
+                        nargs=1,
+                        help=NA)
 {
+
+    # Note the defaults above are that required for parsing an option
+    # with a single corresponding value
 
     if (is.null(ref) || is.na(ref))
         stop("ref must be a valid string")
@@ -43,38 +46,51 @@ argument_def <- function(ref,
     if (!is.logical(required))
         stop("requirement keyword only takes logicals, (TRUE | FALSE)")
 
-    if (!is.null(help) && !is.character(help))
-        stop("Specified help is required to be (NULL | character)")
+    if (!is.na(help) && !is.character(help))
+        stop("Specified help is required to be (NA | character)")
 
-    # validate types
+    # Enforce that types must be one of the SUPPORTED_TYPES
     if (!(type %in% SUPPORTED_TYPES))
         stop(sprintf("Specified type must be one of (%s)\n",
                      paste(SUPPORTED_TYPES, sep=", ")))
 
-    if (type != "logical")
-        nargs <- 1
-
-    if (type == "logical") {
-        nargs <- 0
-        default_val <- FALSE
-    }
-
-    # validate nargs
+    # general validation nargs
     if (nargs != "+" && !is.numeric(nargs))
         stop("Number of arguments must be + or an integer")
+    else if (is.numeric(nargs) && (nargs < 0 || floor(nargs) != nargs))
+        stop("nargs must be '+' or an integer >= 0")
 
-    if (is.numeric(nargs) && (floor(nargs) != nargs || nargs < 0))
-        stop("Number of arguments (nargs) must be 0 or a positive integer.")
+    if (startsWith(ref, LONG_PREFIX)) {
 
+        if (type == "logical") {
+            # default and requirements for logical option
+            nargs <- 0
 
-    # position arguments do not have any proceeding values
-    if (!startsWith(ref, LONG_PREFIX))
+            if (required)
+                stop("Logical options can not be required")
+            required <- FALSE
+
+            if (!is.na(default_val) && default_val)
+                warning("Default value of logical option is FALSE, setting to FALSE")
+            default_val <- FALSE
+        }
+    } else if (!startsWith(ref, LONG_PREFIX)) {
+        # default and requirements for position argument
         nargs <- 0
+        required = TRUE
+
+        if (type == "logical")
+            stop("Position arguments can't be type 'logical'")
+    } else
+        stop("Unknown input")
 
 
-    if (is.null(default_val) || storage.mode(default_val) == type)
-        return(list(ref=ref, val=default_val, help=help, nargs=nargs,
+    if (is.na(default_val) || storage.mode(default_val) == type)
+        return(list(ref=ref, val=default_val,
+                    help=help, nargs=nargs,
                     type=type, required=required))
+    else
+        stop("Default value doesn't match specified type")
 
-    stop("Default value doesn't match specified type")
+    stop("Unanticipated error")
 }

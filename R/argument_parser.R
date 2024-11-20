@@ -73,6 +73,7 @@ argument_parser <- function(..., description=NULL)
         # arg[idx] == '--args'
         
         parsed_input <- parse_r_lang_args(args)
+        print(parsed_input)
         args <- parsed_input[["args"]]
         program_name <- parsed_input[["program_name"]]
         rm(parsed_input)
@@ -80,7 +81,7 @@ argument_parser <- function(..., description=NULL)
         # TODO do these assumptions only hold true when using Rscript?
         # to launch program
         if (length(args) == 1 && is.na(args))
-            stop("Missing R language arguments")
+            stop("No arguments detected.")
         
         if (is.na(program_name))
             stop("R script missing from command line inputs")
@@ -93,7 +94,12 @@ argument_parser <- function(..., description=NULL)
         }
 
 
+        # set arg_out to default values
         arg_out <- list()
+        for (i in seq(length(arg_defs))) {
+            arg_ref <- rm_opt_prefix(arg_defs[[i]]$ref)
+            arg_out[[arg_ref]] <- arg_defs[[i]]$val
+        }
 
         # TODO detect key collisions
 
