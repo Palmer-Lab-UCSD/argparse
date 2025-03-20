@@ -112,7 +112,7 @@ parse_r_lang_args <- function(args)
     while (i <= length(args) && (a = args[i]) != "--args")
     {
     
-        if ((r <- regexpr("^--file=(?<value>\\w*.(R|r))$", a, perl=TRUE)) > 0)
+        if ((r <- regexpr("^--file=(?<value>[-_/\\w]*.(R|r))$", a, perl=TRUE)) > 0)
         {
             start_idx <- attr(r, "capture.start")[,"value"]
             end_idx <- start_idx + attr(r, "capture.length")[,"value"]
