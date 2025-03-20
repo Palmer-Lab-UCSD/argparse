@@ -62,7 +62,7 @@ argument_parser <- function(..., description=NULL)
         version=NULL
     }
 
-    parse_arguments <- function(args)
+    parse_arguments <- function(args, return_program_name = FALSE)
     {
 
         # Recall, that the command line inputs in R consists of
@@ -73,7 +73,6 @@ argument_parser <- function(..., description=NULL)
         # arg[idx] == '--args'
         
         parsed_input <- parse_r_lang_args(args)
-        print(parsed_input)
         args <- parsed_input[["args"]]
         program_name <- parsed_input[["program_name"]]
         rm(parsed_input)
@@ -144,6 +143,11 @@ argument_parser <- function(..., description=NULL)
                 start_pos_idx <- i + 1
         }
 
+        if (length(position_defs) == 0 && ! return_program_name)
+            return(arg_out)
+        else if(length(position_defs) == 0 && return_program_name)
+            return(list(args=arg_out, program=program_name))
+
         if (start_pos_idx > length(args))
             stop("No position arguments detected")
 
@@ -160,6 +164,8 @@ argument_parser <- function(..., description=NULL)
         }
 
 
+        if (return_program_name)
+            return(list(args=arg_out, program=program_name))
         return(arg_out)
     }
 
